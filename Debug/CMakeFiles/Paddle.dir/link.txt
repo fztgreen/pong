@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11 -g  -rdynamic CMakeFiles/Paddle.dir/bin/Paddle.cpp.o  -o Paddle -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network 

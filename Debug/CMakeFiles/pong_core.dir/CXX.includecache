@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/zach/Desktop/pong/src/AIPaddle.cpp
+AIPaddle.hpp
+/home/zach/Desktop/pong/src/AIPaddle.hpp
+SFML/Graphics.hpp
+-
+
+/home/zach/Desktop/pong/src/AIPaddle.hpp
+SFML/Graphics.hpp
+-
+Paddle.hpp
+/home/zach/Desktop/pong/src/Paddle.hpp
+
+/home/zach/Desktop/pong/src/Ball.cpp
+Ball.hpp
+/home/zach/Desktop/pong/src/Ball.hpp
+SFML/Graphics.hpp
+-
+
+/home/zach/Desktop/pong/src/Ball.hpp
+SFML/Graphics.hpp
+-
+random
+-
+
+/home/zach/Desktop/pong/src/Paddle.cpp
+Paddle.hpp
+/home/zach/Desktop/pong/src/Paddle.hpp
+SFML/Graphics.hpp
+-
+
+/home/zach/Desktop/pong/src/Paddle.hpp
+SFML/Graphics.hpp
+-
+Ball.cpp
+/home/zach/Desktop/pong/src/Ball.cpp
+
