@@ -3,14 +3,12 @@
 
 CMakeFiles/pong_core.dir/src/AIPaddle.cpp.o: ../src/AIPaddle.cpp
 CMakeFiles/pong_core.dir/src/AIPaddle.cpp.o: ../src/AIPaddle.hpp
-CMakeFiles/pong_core.dir/src/AIPaddle.cpp.o: ../src/Ball.cpp
 CMakeFiles/pong_core.dir/src/AIPaddle.cpp.o: ../src/Ball.hpp
 CMakeFiles/pong_core.dir/src/AIPaddle.cpp.o: ../src/Paddle.hpp
 
 CMakeFiles/pong_core.dir/src/Ball.cpp.o: ../src/Ball.cpp
 CMakeFiles/pong_core.dir/src/Ball.cpp.o: ../src/Ball.hpp
 
-CMakeFiles/pong_core.dir/src/Paddle.cpp.o: ../src/Ball.cpp
 CMakeFiles/pong_core.dir/src/Paddle.cpp.o: ../src/Ball.hpp
 CMakeFiles/pong_core.dir/src/Paddle.cpp.o: ../src/Paddle.cpp
 CMakeFiles/pong_core.dir/src/Paddle.cpp.o: ../src/Paddle.hpp

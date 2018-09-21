@@ -4,14 +4,12 @@
 CMakeFiles/pong_core.dir/src/AIPaddle.cpp.o
  /home/zach/Desktop/pong/src/AIPaddle.cpp
  /home/zach/Desktop/pong/src/AIPaddle.hpp
- /home/zach/Desktop/pong/src/Ball.cpp
  /home/zach/Desktop/pong/src/Ball.hpp
  /home/zach/Desktop/pong/src/Paddle.hpp
 CMakeFiles/pong_core.dir/src/Ball.cpp.o
  /home/zach/Desktop/pong/src/Ball.cpp
  /home/zach/Desktop/pong/src/Ball.hpp
 CMakeFiles/pong_core.dir/src/Paddle.cpp.o
- /home/zach/Desktop/pong/src/Ball.cpp
  /home/zach/Desktop/pong/src/Ball.hpp
  /home/zach/Desktop/pong/src/Paddle.cpp
  /home/zach/Desktop/pong/src/Paddle.hpp

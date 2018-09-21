@@ -3,7 +3,7 @@
 #ifndef PADDLE_HPP
 #define PADDLE_HPP
 #include <SFML/Graphics.hpp>
-#include "Ball.cpp"
+#include "Ball.hpp"
 
 //Paddle class header for pong game
 class Paddle{

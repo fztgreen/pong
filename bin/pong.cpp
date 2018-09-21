@@ -1,21 +1,21 @@
 #include <SFML/Graphics.hpp>
+#include <../src/Ball.cpp>
 #include <../src/Paddle.cpp>
 #include <../src/AIPaddle.cpp>
-//#include <../src/Ball.cpp>
 #include <unistd.h>
 #include <string>
 
-#define KEYUP -2
-#define KEYDOWN 2
+//Defines input values and Window size
+#define KEYUP -1
+#define KEYDOWN 1
 #define VIDEOWIDTH 800
 #define VIDEOHEIGHT 600
 
 
 //TODO List:
-//Make game run on a certain framerate
-//Make Paddles the ones to hit the ball
-//Add some variation to reflects
-//Add game end
+//Add Sound
+//Add less random reflection
+//Add scaling window
 
 
 
@@ -46,6 +46,7 @@ scoreboard.setCharacterSize(24);
 scoreboard.setFillColor(sf::Color::Black);
 scoreboard.setStyle(sf::Text::Bold);
 
+//Start screen text
 sf::Text go;
 go.setFont(font);
 go.setString("Press 'G' to Begin Ball Movement");
@@ -60,6 +61,7 @@ end.setFont(font);
 
 //Timing based activities
 sf::Clock clock; 
+//Framerate (30fps)
 float targetMs = 2000;
 sf::Time deltaMs  = clock.getElapsedTime(); 
 
@@ -79,16 +81,14 @@ sf::Time deltaMs  = clock.getElapsedTime();
       // Exit
       if(Event.type == sf::Event::Closed)
 		App.close();
-	
-	 
     }
 	
+	//Closes Application with Escape key
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
-		//Move Up
 		App.close();
 	}
 	
-	
+	//Determine input to send to playerView
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
 		//Move Up
 		pad.move(KEYUP);
@@ -117,7 +117,6 @@ sf::Time deltaMs  = clock.getElapsedTime();
 		}
     }
 
-	
 
 	
 	//AI move
@@ -128,19 +127,9 @@ sf::Time deltaMs  = clock.getElapsedTime();
 		ai.move(KEYUP);
 	}
 	
-	
-	//This to --> belongs in its own logic object
-	
+	//Update ball position
 	ball.move(ball.getSpeedX(), ball.getSpeedY());
 	
-	/*
-	if (ball.getBall().getPosition().x >= 750){
-		ball.setSpeed(1,1);
-	}
-	else if (ball.getBall().getPosition().x <= 50){
-		ball.setSpeed(1,1);
-	}
-	*/
 	
 	//Detect collisions between ball and paddles
 	if ((ball.getBall().getPosition().x >= 750) && (ball.getBall().getPosition().x < 752)){
@@ -152,7 +141,7 @@ sf::Time deltaMs  = clock.getElapsedTime();
 	
 	
 	//Point player
-	if (ball.getBall().getPosition().x > 800){
+	if (ball.getBall().getPosition().x > VIDEOWIDTH){
 		playerScore += 1;
 		//reset();
 		ball.reset();
@@ -178,7 +167,7 @@ sf::Time deltaMs  = clock.getElapsedTime();
 
 
 	
-	//End game
+	//End game, if a paddle score is 11
 	if ((playerScore == 11) || (AIScore == 11)){
 		
 		if (playerScore > AIScore){
@@ -188,20 +177,24 @@ sf::Time deltaMs  = clock.getElapsedTime();
 			end.setString("Game Over!\nAI Wins!\nPress 'R' to Try Again!!\nPress 'ESC' to QUIT");
 		}
 		
+		//Resets the positions of entities
 		pad.reset();
 		ai.reset();
 		ball.reset();
 		
+		//Loads end text into buffer
 		end.setCharacterSize(24);
 		end.setFillColor(sf::Color::Black);
 		end.setStyle(sf::Text::Bold);
 		end.setPosition(350,100);
 		
+		//Set game state to over
 		over = 1;
 		
 		//Destroy objects
 	}
 	
+	//Draw entities
 	App.draw(go);
 	App.draw(ball.getBall());
 	App.draw(pad.getRect());
@@ -215,8 +208,8 @@ sf::Time deltaMs  = clock.getElapsedTime();
     App.display();
 	
 	
+	//Lock framerate to a cap
 	deltaMs  = clock.getElapsedTime(); 
-	
 	if (deltaMs.asMilliseconds() < targetMs){
 		usleep(targetMs - deltaMs.asMilliseconds());
 	}
