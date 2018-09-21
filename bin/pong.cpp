@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <../src/Ball.cpp>
 #include <../src/Paddle.cpp>
 #include <../src/AIPaddle.cpp>
@@ -64,6 +65,30 @@ sf::Clock clock;
 //Framerate (30fps)
 float targetMs = 2000;
 sf::Time deltaMs  = clock.getElapsedTime(); 
+
+//Sound paddle hit
+sf::SoundBuffer buffer;
+if (!buffer.loadFromFile("cling_2.wav")){
+	return -1;
+}
+sf::Sound ballSound;
+ballSound.setBuffer(buffer);
+
+//Player Score sound
+sf::SoundBuffer buffer2;
+if (!buffer2.loadFromFile("yes.wav")){
+	return -1;
+}
+sf::Sound scoreSound;
+scoreSound.setBuffer(buffer2);
+
+//Ai score
+sf::SoundBuffer buffer3;
+if (!buffer3.loadFromFile("nextTime.wav")){
+	return -1;
+}
+sf::Sound aiSound;
+aiSound.setBuffer(buffer3);
 
 
   
@@ -134,9 +159,11 @@ sf::Time deltaMs  = clock.getElapsedTime();
 	//Detect collisions between ball and paddles
 	if ((ball.getBall().getPosition().x >= 750) && (ball.getBall().getPosition().x < 752)){
 		ball = ai.hit(ball);
+		ballSound.play();
 	}
 	else if ((ball.getBall().getPosition().x <= 50) && (ball.getBall().getPosition().x > 48)){
 		ball = pad.hit(ball);
+		ballSound.play();
 	}
 	
 	
@@ -147,6 +174,7 @@ sf::Time deltaMs  = clock.getElapsedTime();
 		ball.reset();
 		pad.reset();
 		ai.reset();
+		scoreSound.play();
 	}
 	//Point AI
 	else if (ball.getBall().getPosition().x < 0){
@@ -154,6 +182,7 @@ sf::Time deltaMs  = clock.getElapsedTime();
 		ball.reset();
 		pad.reset();
 		ai.reset();
+		aiSound.play();
 	}
 	
 	

@@ -41,6 +41,8 @@ Ball.hpp
 /home/zach/Desktop/pong/bin/pong.cpp
 SFML/Graphics.hpp
 -
+SFML/Audio.hpp
+-
 ../src/Ball.cpp
 -
 ../src/Paddle.cpp
