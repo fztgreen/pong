@@ -5,6 +5,7 @@
 #include <../src/AIPaddle.cpp>
 #include <unistd.h>
 #include <string>
+#include <cmath>
 
 //Defines input values and Window size
 #define KEYUP -1
@@ -91,6 +92,27 @@ sf::Sound aiSound;
 aiSound.setBuffer(buffer3);
 
 
+//Player Wins
+sf::SoundBuffer buffer4;
+if (!buffer4.loadFromFile("congratz.wav")){
+	return -1;
+}
+sf::Sound win;
+win.setBuffer(buffer4);
+
+
+//AI Wins
+sf::SoundBuffer buffer5;
+if (!buffer5.loadFromFile("lose.wav")){
+	return -1;
+}
+sf::Sound aiWin;
+aiWin.setBuffer(buffer5);
+
+//Pause Barrier
+int barrier = 0;
+
+
   
   // start main loop
   while(App.isOpen())
@@ -101,140 +123,171 @@ aiSound.setBuffer(buffer3);
     sf::Event Event;
 
 	
-    while(App.pollEvent(Event))
-    {
-      // Exit
-      if(Event.type == sf::Event::Closed)
-		App.close();
-    }
+    while(App.pollEvent(Event)){
+		// Exit
+		if(Event.type == sf::Event::Closed)
+			App.close();
+    
 	
-	//Closes Application with Escape key
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
-		App.close();
-	}
-	
-	//Determine input to send to playerView
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
-		//Move Up
-		pad.move(KEYUP);
-    }
-     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-      	//Move Left
-		pad.move(KEYDOWN);
-    }
-	
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
-      	//Restarts Game
-		pad.reset();
-		ai.reset();
-		ball.reset();
-		playerScore = 0;
-		AIScore = 0;
-		over = 0;
-		end.setString("");
-		go.setFillColor(sf::Color::Black);
-    }
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G)){
-      	//"Go" starts game
-		if ((ball.getSpeedX() == 0) && (!over)){
-			ball.setSpeed(1,1);
-			go.setFillColor(sf::Color::Cyan);
+		//Scale window (sort of works)
+		if (Event.type == sf::Event::Resized){
+			//Event.size.width = Event.size.height;
+			App.setSize(sf::Vector2u(Event.size.width,  ceil((Event.size.width * .75))));
 		}
-    }
-
-
-	
-	//AI move
-	if ((ball.getBall().getPosition().y - 50) > ai.getRect().getPosition().y){
-		ai.move(KEYDOWN);
-	}
-	else{
-		ai.move(KEYUP);
-	}
-	
-	//Update ball position
-	ball.move(ball.getSpeedX(), ball.getSpeedY());
-	
-	
-	//Detect collisions between ball and paddles
-	if ((ball.getBall().getPosition().x >= 750) && (ball.getBall().getPosition().x < 752)){
-		ball = ai.hit(ball);
-		ballSound.play();
-	}
-	else if ((ball.getBall().getPosition().x <= 50) && (ball.getBall().getPosition().x > 48)){
-		ball = pad.hit(ball);
-		ballSound.play();
-	}
-	
-	
-	//Point player
-	if (ball.getBall().getPosition().x > VIDEOWIDTH){
-		playerScore += 1;
-		//reset();
-		ball.reset();
-		pad.reset();
-		ai.reset();
-		scoreSound.play();
-	}
-	//Point AI
-	else if (ball.getBall().getPosition().x < 0){
-		AIScore += 1;
-		ball.reset();
-		pad.reset();
-		ai.reset();
-		aiSound.play();
-	}
-	
-	
-	//-->
-	
-	
-	
-	
-	//Draw Views
-	App.clear(sf::Color::Cyan);
-
-
-	
-	//End game, if a paddle score is 11
-	if ((playerScore == 11) || (AIScore == 11)){
 		
-		if (playerScore > AIScore){
-			end.setString("Game Over!\nPlayerWins!\nPress 'R' to Play Again!!\nPress 'ESC' to QUIT");
+		//Pause game on loss of focus
+		if (Event.type == sf::Event::LostFocus){
+			barrier = 1;
+		}
+
+		//Resume game on focus
+		if (Event.type == sf::Event::GainedFocus){
+			barrier = 0;
+		}
+		
+	}
+	
+	if (!barrier){
+		
+		//Closes Application with Escape key
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
+			App.close();
+		}
+		
+		//Determine input to send to playerView
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+			//Move Up
+			pad.move(KEYUP);
+		}
+		 else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+			//Move Left
+			pad.move(KEYDOWN);
+		}
+		
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
+			//Restarts Game
+			pad.reset();
+			ai.reset();
+			ball.reset();
+			playerScore = 0;
+			AIScore = 0;
+			over = 0;
+			end.setString("");
+			go.setFillColor(sf::Color::Black);
+			aiWin.stop();
+			win.stop();
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G)){
+			//"Go" starts game
+			if ((ball.getSpeedX() == 0) && (!over)){
+				ball.setSpeed(1,1);
+				go.setFillColor(sf::Color::Cyan);
+			}
+		}
+
+
+		
+		//AI move
+		if ((ball.getBall().getPosition().y - 50) > ai.getRect().getPosition().y){
+			ai.move(KEYDOWN);
 		}
 		else{
-			end.setString("Game Over!\nAI Wins!\nPress 'R' to Try Again!!\nPress 'ESC' to QUIT");
+			ai.move(KEYUP);
 		}
 		
-		//Resets the positions of entities
-		pad.reset();
-		ai.reset();
-		ball.reset();
+		//Update ball position
+		ball.move(ball.getSpeedX(), ball.getSpeedY());
 		
-		//Loads end text into buffer
-		end.setCharacterSize(24);
-		end.setFillColor(sf::Color::Black);
-		end.setStyle(sf::Text::Bold);
-		end.setPosition(350,100);
 		
-		//Set game state to over
-		over = 1;
 		
-		//Destroy objects
+		//Detect collisions between ball and paddles
+		if ((ball.getBall().getPosition().x >= 750) && (ball.getBall().getPosition().x < 752)){
+			ball = ai.hit(ball);
+			ballSound.play();
+		}
+		else if ((ball.getBall().getPosition().x <= 50) && (ball.getBall().getPosition().x > 48)){
+			ball = pad.hit(ball);
+			ballSound.play();
+		}
+		
+		
+		
+		//Point player
+		if (ball.getBall().getPosition().x > VIDEOWIDTH){
+			playerScore += 1;
+			ball.reset();
+			pad.reset();
+			ai.reset();
+			scoreSound.play();
+		}
+		//Point AI
+		else if (ball.getBall().getPosition().x < 0){
+			AIScore += 1;
+			ball.reset();
+			pad.reset();
+			ai.reset();
+			aiSound.play();
+		}
+		
+		
+		//-->
+		
+
+
+		
+		//End game, if a paddle score is 11
+		if (((playerScore == 11) || (AIScore == 11)) && (!over)){
+			
+			if (playerScore > AIScore){
+				end.setString("Game Over!\nPlayerWins!\nPress 'R' to Play Again!!\nPress 'ESC' to QUIT");
+				ballSound.stop();
+				scoreSound.stop();
+				win.play();
+			}
+			else if (playerScore < AIScore){
+				end.setString("Game Over!\nAI Wins!\nPress 'R' to Try Again!!\nPress 'ESC' to QUIT");
+				ballSound.stop();
+				aiSound.stop();
+				aiWin.play();
+			}
+			
+			//win.play();
+			
+			
+			
+			
+			
+			//Resets the positions of entities
+			pad.reset();
+			ai.reset();
+			ball.reset();
+			
+			//Loads end text into buffer
+			end.setCharacterSize(24);
+			end.setFillColor(sf::Color::Black);
+			end.setStyle(sf::Text::Bold);
+			end.setPosition(350,100);
+			
+			//Set game state to over
+			over = 1;
+			
+			//Destroy objects
+		}
+		
+		//Draw entities
+		//Draw Views
+		App.clear(sf::Color::Cyan);
+		App.draw(go);
+		App.draw(pad.getRect());
+		App.draw(ai.getRect());
+		App.draw(end);
+		App.draw(scoreboard);
+		App.draw(ball.getBall());
+		
+			
+		//Display
+		App.display();
 	}
-	
-	//Draw entities
-	App.draw(go);
-	App.draw(ball.getBall());
-	App.draw(pad.getRect());
-	App.draw(ai.getRect());
-	App.draw(end);
-	App.draw(scoreboard);
-	
-	
-	
-    //Display
-    App.display();
 	
 	
 	//Lock framerate to a cap
