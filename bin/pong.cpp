@@ -1,3 +1,6 @@
+//Pong game by Zachary Greenfield
+//SFML, OO-Design
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <../src/Ball.cpp>
@@ -256,6 +259,7 @@ int barrier = 0;
 			ai.reset();
 			scoreSound.play();
 		}
+		
 		//Point AI
 		else if (ball.getBall().getPosition().x < 0){
 			AIScore += 1;

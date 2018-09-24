@@ -1,6 +1,6 @@
+//Ball CPP file by Zachary Greenfield
+
 #include "Ball.hpp"
-#include <SFML/Graphics.hpp>
-//#include <random>
 
 //Balls constructor initialize ball properties
 Ball::Ball(){
@@ -33,17 +33,17 @@ sf::CircleShape Ball::getBall(){
 
 //Sets ball color
 void Ball::setColor(sf::Color color){
-			ball.setFillColor(color);
+	ball.setFillColor(color);
 }
 
 //Sets ball position
 void Ball::setPosition(int x, int y){
-			ball.setPosition(x,y);
+	ball.setPosition(x,y);
 }
 
 //Returns ball's topleft position.
 sf::Vector2f Ball::getPosition(){
-		return ball.getPosition();
+	return ball.getPosition();
 };
 		
 //Moves ball object.  Checks for edges of game.  Keeps speed consistant when bouncing off sides, with -Y velocity

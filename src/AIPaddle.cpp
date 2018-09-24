@@ -1,5 +1,6 @@
+//AIPaddle CPP file by Zachary Greenfield
+
 #include "AIPaddle.hpp"
-//#include <SFML/Graphics.hpp>
 
 #define PADDLESIZE 100
 

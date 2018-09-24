@@ -1,4 +1,5 @@
-//#include <SFML/Graphics.hpp>
+//Paddle CPP file by Zachary Greenfield
+
 #include "Paddle.hpp"
 
 #define PADDLESIZE 100
@@ -17,12 +18,12 @@ sf::RectangleShape Paddle::getRect(){
 
 //Sets paddle color
 void Paddle::setColor(sf::Color color){
-			rect.setFillColor(color);
+	rect.setFillColor(color);
 }
 
 //Sets paddle position
 void Paddle::setPosition(int x, int y){
-			rect.setPosition(x,y);
+	rect.setPosition(x,y);
 }
 		
 //Moves the paddle

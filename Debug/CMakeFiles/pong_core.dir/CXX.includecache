@@ -19,8 +19,6 @@ Paddle.hpp
 /home/zach/Desktop/pong/src/Ball.cpp
 Ball.hpp
 /home/zach/Desktop/pong/src/Ball.hpp
-SFML/Graphics.hpp
--
 
 /home/zach/Desktop/pong/src/Ball.hpp
 SFML/Graphics.hpp

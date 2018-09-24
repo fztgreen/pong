@@ -19,8 +19,6 @@ Paddle.hpp
 ../src/Ball.cpp
 Ball.hpp
 ../src/Ball.hpp
-SFML/Graphics.hpp
--
 
 ../src/Ball.hpp
 SFML/Graphics.hpp
