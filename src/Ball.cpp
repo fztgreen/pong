@@ -7,7 +7,7 @@ Ball::Ball(){
 	ball.setRadius(4);
 	ball.setFillColor(sf::Color(0,0,0));
 	ball.setPosition(400, 300);
-	setSpeed(1,1);
+	setSpeed(0,0);
 }
 
 //Sets the speed of the ball
